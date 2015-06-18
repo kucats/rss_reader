@@ -58,18 +58,28 @@ Class RSS_Parse{
 			$array['articleid']=substr($array['link'],-9,8);
 			$this->db[]=$array;
 			
-			$dbh = $this->prepareDB();
+			try{
 			
-			$stmt = $dbh -> prepare("INSERT INTO rssfeed (ArticleID, Title, Category, Strings1, Strings2, Strings3, Url, Time, LastUpdated) VALUES (:ArticleID, :Title, :Category, :Strings1, :Strings2, :Strings3, :Url, FROM_UNIXTIME(".$array['unixtime']."), now())");
-			$stmt->bindValue(':ArticleID', $array['articleid'], PDO::PARAM_INT);
-			$stmt->bindParam(':Title', $array['title'], PDO::PARAM_STR);
-			$stmt->bindParam(':Category', $array['category'], PDO::PARAM_STR);
-			$stmt->bindParam(':Strings1', $array['summary'][1], PDO::PARAM_STR);
-			$stmt->bindParam(':Strings2', $array['summary'][2], PDO::PARAM_STR);
-			$stmt->bindParam(':Strings3', $array['summary'][3], PDO::PARAM_STR);
-			$stmt->bindParam(':Url', $array['link'], PDO::PARAM_STR);
+				$dbh = $this->prepareDB();
+				
+				$stmt = $dbh -> prepare("INSERT INTO rssfeed (ArticleID, Title, Category, Strings1, Strings2, Strings3, Url, Time, LastUpdated) VALUES (:ArticleID, :Title, :Category, :Strings1, :Strings2, :Strings3, :Url, FROM_UNIXTIME(".$array['unixtime']."), now())");
+				$stmt->bindValue(':ArticleID', $array['articleid'], PDO::PARAM_INT);
+				$stmt->bindParam(':Title', $array['title'], PDO::PARAM_STR);
+				$stmt->bindParam(':Category', $array['category'], PDO::PARAM_STR);
+				$stmt->bindParam(':Strings1', $array['summary'][1], PDO::PARAM_STR);
+				$stmt->bindParam(':Strings2', $array['summary'][2], PDO::PARAM_STR);
+				$stmt->bindParam(':Strings3', $array['summary'][3], PDO::PARAM_STR);
+				$stmt->bindParam(':Url', $array['link'], PDO::PARAM_STR);
 
-			$stmt->execute();
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+			}catch  (PDOException $e) {
+			    print "Exception:SQL";
+				print $e->getMessage();
+			}
+
 			
 	}
 
