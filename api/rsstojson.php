@@ -26,9 +26,9 @@ Class RSS_Parse{
 		}
 	}
 	private function retrieveStrings($description){
-		preg_match_all('/<li.*?>(.*?)<\/li>/iu', $description, $summary);
-		if(count($summary)>=2){
-			return $summary;
+		preg_match_all('/<li[^>]*>([^<]*)<\/li>/iu', $description, $summary);
+		if(count($summary[0])>=2){
+			return $summary[0];
 		}else{
 			return NULL;
 		}
