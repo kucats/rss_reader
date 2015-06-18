@@ -52,7 +52,7 @@
 	              <tbody>
 	              	<tr ng-repeat="s in list">
 	              		<td>{{s.title}}</td>
-	              		<td>{{s.date  | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+	              		<td>{{s.date *1000  | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
 	              		<td><a href="{{s.url}}">here</a></td>
 	                </tr>
 	              </tbody>
