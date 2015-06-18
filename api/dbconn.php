@@ -2,7 +2,7 @@
 
 require_once(./constants.php);
 
-Class DB_MYSQL(){
+Class DB_MYSQL{
 	public $dbh;
 
 	function __construct(){
