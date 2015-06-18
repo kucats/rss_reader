@@ -11,7 +11,8 @@ Class RSS_Parse{
 
 	private function prepareDB(){
 		if(!isset($this->dbh)){
-			$dbh = new DB_MYSQL();
+			$db = new DB_MYSQL();
+			$dbh = $db->getDBConn();
 			return $dbh;
 		}else{
 			return $this->dbh;

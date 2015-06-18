@@ -19,5 +19,8 @@ Class DB_MYSQL{
 
 		$this->dbh=$dbh;
 	}
+	public function getDBConn(){
+		return $this->dbh;
+	}
 }
 ?>
