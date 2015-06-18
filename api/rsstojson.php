@@ -22,8 +22,10 @@ Class RSS_Parse{
 		$rss =& new XML_RSS($url);
 		$rss->parse();
 		foreach ($rss->getItems() as $item) {
-		$this->registerItem($item);
+			$retrievedItems[]=$item;
 		}
+		$retrievedItems['category']=$category;
+		$this->registerItem($retrievedItems);
 	}
 	private function retrieveStrings($description){
 		preg_match_all('/<li[^>]*>([^<]*)<\/li>/iu', $description, $summary);
