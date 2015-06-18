@@ -20,7 +20,7 @@ Class RSS_Parse{
 		$rss =& new XML_RSS($url);
 		$rss->parse();
 		foreach ($rss->getItems() as $item) {
-		$this->registerItem('title'=>$item['title'],'link'=>$item['link']);
+		$this->registerItem(array('title'=>$item['title'],'link'=>$item['link']));
 		}
 	}
 
