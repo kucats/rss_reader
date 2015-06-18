@@ -19,16 +19,23 @@ Class RSS_Parse{
 	}
 	public function getRSS($category){
 		$url =$this->makeURI($category);
-
 		$rss =& new XML_RSS($url);
 		$rss->parse();
 		foreach ($rss->getItems() as $item) {
 		$this->registerItem($item);
 		}
 	}
-
+	private function retrieveStrings($description){
+		preg_match_all('/<li.*?>(.*?)<\/li>/iu', $description, $summary);
+		if(count($summary)>=2){
+			return $summary;
+		}else{
+			return NULL;
+		}
+	}
 	private function registerItem($array){
 		if(isset($array['title']) && isset($array['link'])){
+			$array['summary']=$this->retrieveStrings($array['description']);
 			$this->db[]=$array;
 		}else{
 			return false;
