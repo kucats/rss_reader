@@ -40,6 +40,7 @@ Class RSS_Parse{
 	private function registerItem($array){
 		if(isset($array['title']) && isset($array['link'])){
 			$array['summary']=$this->retrieveStrings($array['description']);
+			$array['unixtime']=strtotime($array['pubdate'])
 			$this->db[]=$array;
 		}else{
 			return false;
