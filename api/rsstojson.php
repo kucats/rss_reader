@@ -6,15 +6,15 @@ Class RSS_Parse(){
 	//mongoを作るまでの仮の変数
 	public $db=array();
 
-	function registerItem($array){
-		if(isset($array['title']) && isset($array['link'])){
-			$db[]=$array;
-		}else{
-			return false;
-		}
+	public function returnDB(){
+		return $this->db;
 	}
 
-	function getRSS($category){
+	public function getALL(){
+		$category = Constants::rss_category;
+		$this->getRSS($category);
+	}
+	public function getRSS($category){
 		$url =$this->makeURI($category);
 
 		$rss =& new XML_RSS($url);
@@ -23,7 +23,16 @@ Class RSS_Parse(){
 		$this->registerItem('title'=>$item['title'],'link'=>$item['link']);
 		}
 	}
-	function makeURI($category){
+
+	private function registerItem($array){
+		if(isset($array['title']) && isset($array['link'])){
+			$db[]=$array;
+		}else{
+			return false;
+		}
+	}
+
+	private function makeURI($category){
 		$base_url = Constants::base_url;
 		$base_ext = Constants::base_ext;
 		return $base_url.$category.$base_ext;
