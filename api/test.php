@@ -10,4 +10,7 @@ $rss->set('base_ext','.xml');
 $rss->set('categories',$categories);
 $rss->getALL();
 
+$result=$rss->returnDB();
+var_dump($result);
+
 ?>
