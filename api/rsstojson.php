@@ -1,11 +1,22 @@
 <?php
 //!!deprecated module
 require_once "XML/RSS.php";
-
+require_once "./dbconn.php";
 Class RSS_Parse{
 	//mongoを作るまでの仮の変数
 	public $db=array();
 	public $params;
+
+	private $dbh;
+
+	private function prepareDB(){
+		if(!isset($this->dbh)){
+			$dbh = new DB_MYSQL();
+			return $dbh;
+		}else{
+			return $this->dbh;
+		}
+	}
 
 	public function returnDB(){
 		return $this->db;
@@ -38,13 +49,27 @@ Class RSS_Parse{
 		}
 	}
 	private function registerItem($array){
-		if(isset($array['title']) && isset($array['link'])){
-			$array['summary']=$this->retrieveStrings($array['description']);
-			$array['unixtime']=strtotime($array['pubdate']);
-			$this->db[]=$array;
-		}else{
+		if(!isset($array['title']) || !isset($array['link'])){
 			return false;
 		}
+			$array['summary']=$this->retrieveStrings($array['description']);
+			$array['unixtime']=strtotime($array['pubdate']);
+			$array['articleid']=substr($array['link]',-9,8);
+			$this->db[]=$array;
+			
+			$dbh = $this->prepareDB();
+			
+			$stmt = $dbh -> prepare("INSERT INTO rssfeed (ArticleID, Title, Category, Strings1, Strings2, Strings3, Url, Time, LastUpdated) VALUES (:ArticleID, :Title, :Category, :Strings1, :Strings2, :Strings3, :Url, FROM_UNIXTIME(".$array['unixtime']."), now())");
+			$stmt->bindValue(':ArticleID', $array['articleid'], PDO::PARAM_INT);
+			$stmt->bindParam(':Title', $array['title'], PDO::PARAM_STR);
+			$stmt->bindParam(':Category', $array['category'], PDO::PARAM_STR);
+			$stmt->bindParam(':Strings1', $array['summary'][1], PDO::PARAM_STR);
+			$stmt->bindParam(':Strings2', $array['summary'][2], PDO::PARAM_STR);
+			$stmt->bindParam(':Strings3', $array['summary'][3], PDO::PARAM_STR);
+			$stmt->bindParam(':Url', $array['link'], PDO::PARAM_STR);
+
+			$stmt->execute();
+			
 	}
 
 	private function makeURI($category){
