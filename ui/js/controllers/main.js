@@ -1,9 +1,6 @@
-/*'use strict';
-
-angular.module("mainModule", [])
-  .controller("mainController", '$http', 
-  */
-function mainController($scope, $http) {
+'use strict';
+angular.module("myApp", [])
+.controller('mainController', ['$scope', '$http', function ($scope, $http) {
 
         var $uri ='js/sample.json';
 
