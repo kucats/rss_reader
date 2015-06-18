@@ -39,7 +39,7 @@ Class RSS_Parse{
 		return $base_url.$category.$base_ext;
 	}
 
-	public set($entry,$param){
+	public function set($entry,$param){
 		$this->params[$entry]=$param;
 
 	}
