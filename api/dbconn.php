@@ -6,7 +6,7 @@ Class DB_MYSQL{
 	public $dbh;
 
 	function __construct(){
-		$dbname=api;
+		$dbname='api';
 		
 		$hostname=Constants::MYSQL_ATTR_Hostname;
 		$dsn = "mysql:host=$hostname;dbname=$dbname";
