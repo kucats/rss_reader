@@ -12,8 +12,10 @@ Class RSS_Parse{
 	}
 
 	public function getALL(){
-		$category = $this->params['categories'];
-		$this->getRSS($category);
+		$categories = $this->params['categories'];
+		foreach ($categories as $category){
+			$this->getRSS($category);
+		}
 	}
 	public function getRSS($category){
 		$url =$this->makeURI($category);
