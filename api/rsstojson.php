@@ -28,7 +28,10 @@ Class RSS_Parse{
 	private function retrieveStrings($description){
 		preg_match_all('/<li[^>]*>([^<]*)<\/li>/iu', $description, $summary);
 		if(count($summary[0])>=2){
-			return $summary[0];
+			foreach($summary[0] as $key){
+				$result[] = strip_tags($key)
+			}
+			return $result;
 		}else{
 			return NULL;
 		}
