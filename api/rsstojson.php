@@ -2,7 +2,7 @@
 //!!deprecated module
 require_once "XML/RSS.php";
 
-Class RSS_Parse(){
+Class RSS_Parse{
 	//mongoを作るまでの仮の変数
 	public $db=array();
 
