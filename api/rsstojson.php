@@ -54,7 +54,7 @@ Class RSS_Parse{
 		}
 			$array['summary']=$this->retrieveStrings($array['description']);
 			$array['unixtime']=strtotime($array['pubdate']);
-			$array['articleid']=substr($array['link]',-9,8);
+			$array['articleid']=substr($array['link'],-9,8);
 			$this->db[]=$array;
 			
 			$dbh = $this->prepareDB();
