@@ -5,13 +5,14 @@ require_once "XML/RSS.php";
 Class RSS_Parse{
 	//mongoを作るまでの仮の変数
 	public $db=array();
+	public $params;
 
 	public function returnDB(){
 		return $this->db;
 	}
 
 	public function getALL(){
-		$category = Constants::rss_category;
+		$category = $this->params['categories'];
 		$this->getRSS($category);
 	}
 	public function getRSS($category){
@@ -33,17 +34,15 @@ Class RSS_Parse{
 	}
 
 	private function makeURI($category){
-		$base_url = Constants::base_url;
-		$base_ext = Constants::base_ext;
+		$base_url = $this->params['base_url'];
+		$base_ext = $this->params['base_ext'];
 		return $base_url.$category.$base_ext;
 	}
+
+	public set($entry,$param){
+		$this->params[$entry]=$param;
+
+	}
 }
-Class Constants{
-	//起点となるURL
-	public $base_url='http://news.livedoor.com/topics/rss/';
-	//拡張子
-	public $base_ext='.xml';
-	//カテゴリ
-	public $rss_category=array('top'=>'主要','dom'=>'国内','int'=>'海外','eco'=>'IT経済','ent'=>'芸能','spo'=>'スポーツ','52'=>'映画','gourmet'=>'グルメ','love'=>'女子','trend'=>'トレンド');
-}
+
 ?>
