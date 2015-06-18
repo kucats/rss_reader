@@ -29,7 +29,7 @@ Class RSS_Parse{
 		preg_match_all('/<li[^>]*>([^<]*)<\/li>/iu', $description, $summary);
 		if(count($summary[0])>=2){
 			foreach($summary[0] as $key){
-				$result[] = strip_tags($key)
+				$result[] = strip_tags($key);
 			}
 			return $result;
 		}else{
