@@ -13,8 +13,8 @@ Class RSS_Parse{
 
 	public function getALL(){
 		$categories = $this->params['categories'];
-		foreach ($categories as $category){
-			$this->getRSS($category);
+		foreach ($categories as $category_en => $category_ja){
+			$this->getRSS($category_en);
 		}
 	}
 	public function getRSS($category){
