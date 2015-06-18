@@ -38,7 +38,7 @@ Class RSS_Parse{
 		return $base_url.$category.$base_ext;
 	}
 }
-Class Constatnts{
+Class Constants{
 	//起点となるURL
 	public $base_url='http://news.livedoor.com/topics/rss/';
 	//拡張子
