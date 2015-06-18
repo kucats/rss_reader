@@ -23,13 +23,13 @@ Class RSS_Parse{
 		$rss =& new XML_RSS($url);
 		$rss->parse();
 		foreach ($rss->getItems() as $item) {
-		$this->registerItem(array('title'=>$item['title'],'link'=>$item['link']));
+		$this->registerItem($item);
 		}
 	}
 
 	private function registerItem($array){
 		if(isset($array['title']) && isset($array['link'])){
-			$db[]=$array;
+			$this->db[]=$array;
 		}else{
 			return false;
 		}
