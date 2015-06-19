@@ -73,7 +73,7 @@ Class RSS_Parse{
 				foreach ($return as $key => $row){
 					$sort[$key] =$row['Similarity'];
 				}
-				array_multisort($return,SORT_DESC,$sort);
+				array_multisort($return,SORT_ASC,$sort);
 				array_splice($return,3);
 				return $return;
 			}catch  (PDOException $e) {
@@ -89,6 +89,10 @@ Class RSS_Parse{
 		foreach ($result as $source_article_num => $compare_array){
 			foreach ($compare_array as $dest_article_num => $similarity){
 				if($source_article_num == $dest_article_num){
+					break;
+				}
+				if($similarity <=0.02){
+					//もはや類似してない
 					break;
 				}
 				$stmt = $dbh -> prepare("INSERT INTO similar (ArticleID, TargetArticleID, Similarity, LastUpdated) VALUES (:ArticleID, :TargetArticleID, $similarity, now())");

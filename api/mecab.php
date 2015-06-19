@@ -198,24 +198,24 @@ class Mecab_Analyze
     
     //taken from http://www.pahoo.org/e-soul/webtech/php03/php03-13-01.shtm
     public function count_weight($items) {
-	$ret = 9;
-	foreach ($items as $word)	$ret += mb_strlen($word) * mb_strlen($word);
+		$ret = 9;
+		foreach ($items as $word)	$ret += mb_strlen($word) * mb_strlen($word);
 
-	return $ret;
+		return $ret;
 	}
 	//taken from http://www.pahoo.org/e-soul/webtech/php03/php03-13-01.shtm
 	public function similar_mecab($sour, $dest) {
-	$items_sour = array();
-	$items_dest = array();
+		$items_sour = array();
+		$items_dest = array();
 
-	$items_sour= $this->returnWords($sour);
-	$items_dest= $this->returnWords($dest);
+		$items_sour= $this->returnWords($sour);
+		$items_dest= $this->returnWords($dest);
 
-	$result = $this->count_weight(array_intersect($items_sour, $items_dest));
-	$result = (double)$result / $this->count_weight($items_dest);
-	if ($result > 1)	$result = 1;
+		$result = $this->count_weight(array_intersect($items_sour, $items_dest));
+		$result = (double)$result / $this->count_weight($items_dest);
+		if ($result > 1)	$result = 1;
 
-	return $result;
+		return $result;
 	}
 
 
