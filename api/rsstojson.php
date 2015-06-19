@@ -91,7 +91,7 @@ Class RSS_Parse{
 				if($source_article_num == $dest_article_num){
 					break;
 				}
-				if($similarity <=0.02){
+				if($similarity <=0.05){
 					//もはや類似してない
 					break;
 				}
