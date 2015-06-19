@@ -14,12 +14,14 @@ $category='top';
 }else{
 $category=htmlspecialchars($_GET['category']);
 }
-
-$result=$rss->getCategoryArticles($category);
+$act=$_GET['act'];
+if(!$act){
+	$result=$rss->getCategoryArticles($category);
+}elseif($act='getsimilar' && $_GET['article_num']){
+	$result=$rss->getSimilarArticle(htmlspecialchars($_GET['article_num']));
+}
 
 $json=array();
-
 $json['data']=$result;
-
 echo json_encode($json);
 ?>
