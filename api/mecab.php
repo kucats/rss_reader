@@ -188,6 +188,14 @@ class Mecab_Analyze
 
         return $array;
     }
+    public function returnWords($text){
+    	$result=$this->getResult($text);
+    	foreach ($result as $word){
+    		$words[]=$word['surface'];
+    	}
+    	return $words;
+    }
+    
     //taken from http://www.pahoo.org/e-soul/webtech/php03/php03-13-01.shtm
     public function count_weight($items) {
 	$ret = 9;
@@ -200,8 +208,8 @@ class Mecab_Analyze
 	$items_sour = array();
 	$items_dest = array();
 
-	parsing_mecab($sour, $items_sour);
-	parsing_mecab($dest, $items_dest);
+	$items_sour= $this->returnWords($sour);
+	$items_dest= $this->returnWords($dest);
 
 	$result = count_weight(array_intersect($items_sour, $items_dest));
 	$result = (double)$result / count_weight($items_dest);
@@ -209,6 +217,7 @@ class Mecab_Analyze
 
 	return $result;
 	}
+
 
 }
 
