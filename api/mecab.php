@@ -211,8 +211,8 @@ class Mecab_Analyze
 	$items_sour= $this->returnWords($sour);
 	$items_dest= $this->returnWords($dest);
 
-	$result = count_weight(array_intersect($items_sour, $items_dest));
-	$result = (double)$result / count_weight($items_dest);
+	$result = $this->count_weight(array_intersect($items_sour, $items_dest));
+	$result = (double)$result / $this->count_weight($items_dest);
 	if ($result > 1)	$result = 1;
 
 	return $result;
