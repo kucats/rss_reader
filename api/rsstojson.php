@@ -35,7 +35,7 @@ Class RSS_Parse{
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
-				$datetime=$result['time'];
+				$datetime=$result['Time'];
 				$result['Time']=strtotime($datetime);
 				
 				return $result;
