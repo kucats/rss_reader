@@ -36,7 +36,7 @@ Class RSS_Parse{
 				}
 				$result = $stmt-> fetchAll();
 				$d = new DateTime($result['Time']);
-				$result['Time']=$d->format("U");
+				$result['UnixTime']=$d->format("U");
 					
 				return $result;
 			}catch  (PDOException $e) {
