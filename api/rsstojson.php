@@ -91,17 +91,15 @@ Class RSS_Parse{
 				if($source_article_num == $dest_article_num){
 					break;
 				}
-				if($similarity <=0.05){
-					//もはや類似してない
-					break;
-				}
-				$stmt = $dbh -> prepare("INSERT INTO similar (ArticleID, TargetArticleID, Similarity, LastUpdated) VALUES (:ArticleID, :TargetArticleID, $similarity, now())");
-				$stmt->bindValue(':ArticleID', $source_article_num, PDO::PARAM_INT);
-				$stmt->bindParam(':TargetArticleID', $dest_article_num, PDO::PARAM_INT);
+				if($similarity >=0.02){				
+					$stmt = $dbh -> prepare("INSERT INTO similar (ArticleID, TargetArticleID, Similarity, LastUpdated) VALUES (:ArticleID, :TargetArticleID, $similarity, now())");
+					$stmt->bindValue(':ArticleID', $source_article_num, PDO::PARAM_INT);
+					$stmt->bindParam(':TargetArticleID', $dest_article_num, PDO::PARAM_INT);
 
-				$ret=$stmt->execute();
-				if(!$ret){
-					echo 'SQL Error';
+					$ret=$stmt->execute();
+					if(!$ret){
+						echo 'SQL Error';
+					}
 				}
 
 			}
