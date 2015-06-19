@@ -11,3 +11,9 @@ CREATE TABLE rssfeed (
  Time datetime,
  LastUpdated datetime
 );
+CREATE TABLE similar (
+ ArticleID CHAR(8),
+ TargetArticleID CHAR(8),
+ Similarity FLOAT(7,6),
+ LastUpdated datetime
+);

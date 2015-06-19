@@ -1,7 +1,10 @@
 <?php
 //!!deprecated module
-require_once "XML/RSS.php";
-require_once "./dbconn.php";
+require_once 'XML/RSS.php';
+
+require_once './dbconn.php';
+require_once './mecab.php';
+
 Class RSS_Parse{
 	//mongoを作るまでの仮の変数
 	public $db=array();
@@ -18,9 +21,99 @@ Class RSS_Parse{
 			return $this->dbh;
 		}
 	}
-
 	public function returnDB(){
 		return $this->db;
+	}
+	public function textAnalyze($category){
+		$ma = new Mecab_Analyze();
+
+		$data=$this->getCategoryArticles($category);
+		$data_compare=$data;
+		foreach ($data as $news_source){
+			$AnalyzeText_Source=$news_source['Title'].$news_source['Strings1'].$news_source['Strings2'].$news_source['Strings3'];
+			$num_source=$news_source['ArticleID'];
+			
+			foreach ($data_compare as $news_dest){
+				$AnalyzeText_Dest=$news_dest['Title'].$news_dest['Strings1'].$news_dest['Strings2'].$news_dest['Strings3'];
+				$num_dest=$news_dest['ArticleID'];
+				
+				$similar[$num_source][$num_dest]=$ma->similar_mecab($AnalyzeText_Source,$AnalyzeText_Dest);
+			}
+		}
+		return $similar;
+	}
+	public function getSimilarArticle($ArticleID){
+			try{
+				$dbh = $this->prepareDB();
+				
+				$stmt = $dbh -> prepare("SELECT * from similar WHERE ArticleID = :ArticleID");
+				$stmt->bindParam(':ArticleID', $ArticleID, PDO::PARAM_INT);
+
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+				$result = $stmt-> fetchAll();
+				$return = array();
+				foreach ($result as $keys){
+					$TargetArticleID=$keys['TargetArticleID'];
+					$Similarity=$keys['Similarity'];
+					$return[$TargetArticleID]=$Similarity;
+				}
+				arsort($return,SORT_NUMERIC);
+				return $return;
+			}catch  (PDOException $e) {
+			    print "Exception:SQL";
+				//print $e->getMessage();
+			}
+
+	}
+	public function addAnalyze($category){
+		$result = $this->textAnalyze($category);
+		$dbh = $this->prepareDB();
+
+		foreach ($result as $source_article_num => $compare_array){
+			foreach ($compare_array as $dest_article_num => $similarity){
+				if($source_article_num == $dest_article_num){
+					break;
+				}
+				$stmt = $dbh -> prepare("INSERT INTO similar (ArticleID, TargetArticleID, Similarity, LastUpdated) VALUES (:ArticleID, :TargetArticleID, $similarity, now())");
+				$stmt->bindValue(':ArticleID', $source_article_num, PDO::PARAM_INT);
+				$stmt->bindParam(':TargetArticleID', $dest_article_num, PDO::PARAM_INT);
+
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+
+			}
+		}
+	}
+
+
+	public function getCategoryArticles($category){
+			if(!isset($category)){return false;}
+			try{
+				$dbh = $this->prepareDB();
+				
+				$stmt = $dbh -> prepare("SELECT * from rssfeed WHERE Category = :Category");
+				$stmt->bindParam(':Category', $category, PDO::PARAM_STR);
+
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+				$result = $stmt-> fetchAll();
+				/*
+				$d = new DateTime($result['Time']);
+				$result['UnixTime']=$d->format("U");
+				*/
+					
+				return $result;
+			}catch  (PDOException $e) {
+			    print "Exception:SQL";
+				//print $e->getMessage();
+			}
 	}
 
 	public function getALL(){
@@ -77,7 +170,7 @@ Class RSS_Parse{
 				}
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
-				print $e->getMessage();
+				//print $e->getMessage();
 			}
 
 			
