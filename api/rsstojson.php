@@ -28,7 +28,7 @@ Class RSS_Parse{
 		$ma = new Mecab_Analyze();
 
 		$data=$this->getCategoryArticles($category);
-		$data_compare=$data;
+		$data_compare=$this->getAllArticles();
 		foreach ($data as $news_source){
 			$AnalyzeText_Source=$news_source['Title'].$news_source['Strings1'].$news_source['Strings2'].$news_source['Strings3'];
 			$num_source=$news_source['ArticleID'];
@@ -69,7 +69,11 @@ Class RSS_Parse{
 					$return[$a]['Category']=$keys['Category'];
 					$a++;
 				}
-				arsort($return,SORT_NUMERIC);
+				foreach ($return as $key => $row){
+					$sort[$key] =$row['Similarity'];
+				}
+				array_multisort($return,SORT_DESC,$sort);
+				array_splice($return,3);
 				return $return;
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
@@ -99,6 +103,26 @@ Class RSS_Parse{
 		}
 	}
 
+	public function getAllArticles(){
+			if(!isset($category)){return false;}
+			try{
+				$dbh = $this->prepareDB();
+				
+				$stmt = $dbh -> prepare("SELECT * from rssfeed");
+				$stmt->bindParam(':Category', $category, PDO::PARAM_STR);
+
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+				$result = $stmt-> fetchAll();
+					
+				return $result;
+			}catch  (PDOException $e) {
+			    print "Exception:SQL";
+				//print $e->getMessage();
+			}
+	}
 
 	public function getCategoryArticles($category){
 			if(!isset($category)){return false;}
