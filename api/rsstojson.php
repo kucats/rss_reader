@@ -104,18 +104,14 @@ Class RSS_Parse{
 	}
 
 	public function getAllArticles(){
-			if(!isset($category)){return false;}
 			try{
 				$dbh = $this->prepareDB();
-				
-				$stmt = $dbh -> prepare("SELECT * from rssfeed");
-
-				$ret=$stmt->execute();
-				if(!$ret){
+				$stmt = $dbh -> query("SELECT * from rssfeed");
+				if(!$stmt){
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
-					
+
 				return $result;
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
