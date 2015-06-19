@@ -4,11 +4,15 @@ angular.module("myApp", [])
 
         var $uri ='/rss_reader/api/api.php';
 
+		$scope.changeCategory = function(category){
+			$scope.category = category;
+		}
+
         $scope.getNewAPI = function() {
 
             $http({
                 method : 'GET',
-                url : $uri
+                url : $uri+'?category='+$scope.category
             }).success(function(data, status, headers, config) {
                 $scope.list = data.data;
                 console.log(status);

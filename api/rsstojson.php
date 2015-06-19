@@ -35,8 +35,10 @@ Class RSS_Parse{
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
+				/*
 				$d = new DateTime($result['Time']);
 				$result['UnixTime']=$d->format("U");
+				*/
 					
 				return $result;
 			}catch  (PDOException $e) {

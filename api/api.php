@@ -8,7 +8,14 @@ $rss = new RSS_Parse();
 $rss->set('base_url','http://news.livedoor.com/topics/rss/');
 $rss->set('base_ext','.xml');
 $rss->set('categories',$categories);
-$result=$rss->getCategoryArticles('top');
+
+if(!isset($_GET['category']){
+$category='top';
+}else{
+$category=htmlspecialchars($_GET['category']);
+}
+
+$result=$rss->getCategoryArticles($category);
 
 $json=array();
 
