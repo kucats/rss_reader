@@ -22,7 +22,7 @@ Class RSS_Parse{
 		return $this->db;
 	}
 
-	public function getJson($category){
+	public function getCategoryArticles($category){
 			if(!isset($category)){return false;}
 			try{
 				$dbh = $this->prepareDB();
@@ -35,9 +35,7 @@ Class RSS_Parse{
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
-				$json=json_encode($result);
-				
-				return $json;
+				return $result;
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
 				//print $e->getMessage();

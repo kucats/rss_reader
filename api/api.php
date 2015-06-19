@@ -8,5 +8,10 @@ $rss = new RSS_Parse();
 $rss->set('base_url','http://news.livedoor.com/topics/rss/');
 $rss->set('base_ext','.xml');
 $rss->set('categories',$categories);
-echo $rss->getJson('top');
+$result=$rss->getCategoryArticles('top');
+
+$json=array();
+$json['data']=$result;
+
+echo json_encode($json);
 ?>
