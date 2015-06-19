@@ -5,6 +5,7 @@ angular.module("myApp", [])
         var $uri ='/rss_reader/api/api.php';
 
 		$scope.changeCategory = function(category){
+			console.log('change category to'+category);
 			$scope.category = category;
 		}
 
