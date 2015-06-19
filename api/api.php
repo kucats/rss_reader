@@ -16,7 +16,11 @@ $category=htmlspecialchars($_GET['category']);
 }
 $act=$_GET['act'];
 if(!$act){
-	$result=$rss->getCategoryArticles($category);
+	if(is_numeric($category)===false){
+		$result=$rss->getCategoryArticles($category);
+	}else{
+		$result=$rss->getSimilarArticle($category);
+	}
 }elseif($act='getsimilar' && $_GET['article_num']){
 	$result=$rss->getSimilarArticle(htmlspecialchars($_GET['article_num']));
 }

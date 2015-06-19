@@ -9,6 +9,11 @@ angular.module("myApp", [])
 			$scope.category = category;
 			$scope.getNewAPI();
 		}
+		$scope.changeView = function(category){
+			console.log('change view to '+category);
+			$scope.category = category;
+			$scope.getNewAPI();
+		}
 
         $scope.getNewAPI = function() {
 
