@@ -209,6 +209,28 @@ class Mecab_Analyze
 
 	return $result;
 	}
+	//taken from http://www.pahoo.org/e-soul/webtech/php03/php03-13-01.shtm
+	public function parsing_mecab($str, &$items) {
+		//1行ずつ処理
+		$arr = preg_split("/\n/iu", $str);
+		foreach ($arr as $str) {
+			$str = rtrim($str);
+			if ($str == '')	continue;
+			$str = mb_convert_encoding($str, 'SJIS', INTERNAL_ENCODING);
+			$cmd = 'echo ' . $str . ' | ' .  '"' . MECAB . '" -Owakati -u "' . FILE_UDIC_MECAB . '"';
+			$handle = popen($cmd, 'r');
+			//結果を1行ずつ取得
+			while ($get_wakati = fgets($handle)) {
+				$get_wakati = mb_convert_encoding($get_wakati, INTERNAL_ENCODING, 'SJIS');
+				$result = mb_split("[\t\r\n' ]", $get_wakati);
+				//結果を配列に格納する
+				foreach ($result as $key=>$val) {
+					if ($val != "")	$items[] = $val;
+				}
+			}
+			pclose($handle);
+	}
+}
 
 }
 
