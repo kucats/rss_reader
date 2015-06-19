@@ -2,7 +2,7 @@
 angular.module("myApp", [])
 .controller('mainController', ['$scope', '$http', function ($scope, $http) {
 
-        var $uri ='/api/api.php';
+        var $uri ='/rss_reader/api/api.php';
 
         $scope.getNewAPI = function() {
 
