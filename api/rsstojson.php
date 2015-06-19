@@ -31,10 +31,17 @@ Class RSS_Parse{
 		$data_compare=$this->getAllArticles();
 		foreach ($data as $news_source){
 			$AnalyzeText_Source=$news_source['Title'].$news_source['Strings1'].$news_source['Strings2'].$news_source['Strings3'];
+			$AnalyzeText_Source=str_replace('「','',$AnalyzeText_Source);
+			$AnalyzeText_Source=str_replace('」','',$AnalyzeText_Source);
+			$AnalyzeText_Source=str_replace('。','',$AnalyzeText_Source);
 			$num_source=$news_source['ArticleID'];
 			
 			foreach ($data_compare as $news_dest){
 				$AnalyzeText_Dest=$news_dest['Title'].$news_dest['Strings1'].$news_dest['Strings2'].$news_dest['Strings3'];
+				$AnalyzeText_Dest=str_replace('「','',$AnalyzeText_Dest);
+				$AnalyzeText_Dest=str_replace('」','',$AnalyzeText_Dest);
+				$AnalyzeText_Dest=str_replace('。','',$AnalyzeText_Dest);
+
 				$num_dest=$news_dest['ArticleID'];
 				
 				$similar[$num_source][$num_dest]=$ma->similar_mecab($AnalyzeText_Source,$AnalyzeText_Dest);
