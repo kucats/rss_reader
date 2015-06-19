@@ -60,8 +60,8 @@ Class RSS_Parse{
 					$TargetArticleID=$keys['TargetArticleID'];
 					$Similarity=$keys['Similarity'];
 					
-					$return[$TargetArticleID]=$Similarity;
-					$return[$TargetArticleID]=$keys['Title'];
+					$return[$TargetArticleID][]=$Similarity;
+					$return[$TargetArticleID][]=$keys['Title'];
 				}
 				arsort($return,SORT_NUMERIC);
 				return $return;
