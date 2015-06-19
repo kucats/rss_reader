@@ -34,7 +34,7 @@ Class RSS_Parse{
 				if(!$ret){
 					echo 'SQL Error';
 				}
-				$result = $dbh->fetchAll();
+				$result = $stmt-> fetchAll();
 				$json=json_encode($result);
 				
 				return $json;
