@@ -1,7 +1,10 @@
 <?php
 //!!deprecated module
-require_once "XML/RSS.php";
-require_once "./dbconn.php";
+require_once 'XML/RSS.php';
+
+require_once './dbconn.php';
+require_once './mecab.php';
+
 Class RSS_Parse{
 	//mongoを作るまでの仮の変数
 	public $db=array();
@@ -21,6 +24,25 @@ Class RSS_Parse{
 	public function returnDB(){
 		return $this->db;
 	}
+	public function textAnalyze($category){
+		$ma = new Mecab_Analyze();
+
+		$data=$this->getCategoryArticles($category);
+		$data_compare=$data;
+		foreach ($data as $news_source){
+			$AnalyzeText_Source=$news_source['Title'].$news_source['Strings1'].$news_source['Strings2'].$news_source['Strings3'];
+			$num_source=$news_source['ArticleID'];
+			
+			foreach ($data_compare as $news_dest){
+				$AnalyzeText_Dest=$news_dest['Title'].$news_dest['Strings1'].$news_dest['Strings2'].$news_dest['Strings3'];
+				$num_dest=$news_dest['ArticleID'];
+				
+				$similar[$num_source][$num_dest]=$ma->similar_mecab($AnalyzeText_Source,$AnalyzeText_Dest);
+			}
+		}
+		return $similar;
+	}
+
 
 	public function getCategoryArticles($category){
 			if(!isset($category)){return false;}

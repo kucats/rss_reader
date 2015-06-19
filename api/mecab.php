@@ -235,4 +235,11 @@ foreach($result as $word)
     print_r($word);
 }
 */
+/*比較用のテストスクリプト
+$ma = new Mecab_Analyze();
+$a='渋谷すばるが初主演のTBSドラマ「ヤメゴク」 最終回は6.2％';
+$b='渋谷すばるが「あわや放送事故」から態度急変 上層部から指導か';
+echo $ma->similar_mecab($a,$b);
+*/
+
 ?>
