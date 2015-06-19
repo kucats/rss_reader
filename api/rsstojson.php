@@ -54,7 +54,13 @@ Class RSS_Parse{
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
-				return $result;
+				foreach ($result as $keys){
+					$TargetArticleID=$keys['TargetArticleID'];
+					$Similarity=$keys['Similarity'];
+					$Similarity[$TargetArticleID]=$Similarity;
+				}
+				asort($Similarity);
+				return $Similarity;
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
 				//print $e->getMessage();
