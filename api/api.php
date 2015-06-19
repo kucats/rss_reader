@@ -9,7 +9,7 @@ $rss->set('base_url','http://news.livedoor.com/topics/rss/');
 $rss->set('base_ext','.xml');
 $rss->set('categories',$categories);
 
-if(!isset($_GET['category']){
+if(!isset($_GET['category'])){
 $category='top';
 }else{
 $category=htmlspecialchars($_GET['category']);
