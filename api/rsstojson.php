@@ -18,9 +18,30 @@ Class RSS_Parse{
 			return $this->dbh;
 		}
 	}
-
 	public function returnDB(){
 		return $this->db;
+	}
+
+	public function getJson($category){
+			if(!isset($category)){return false;}
+			try{
+				$dbh = $this->prepareDB();
+				
+				$stmt = $dbh -> prepare("SELECT * from rssfeed WHERE Category = :Category");
+				$stmt->bindParam(':Category', $category, PDO::PARAM_STR);
+
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+				$result = $dbh->fetchAll();
+				$json=json_encode($result);
+				
+				return $json;
+			}catch  (PDOException $e) {
+			    print "Exception:SQL";
+				//print $e->getMessage();
+			}
 	}
 
 	public function getALL(){
@@ -77,7 +98,7 @@ Class RSS_Parse{
 				}
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
-				print $e->getMessage();
+				//print $e->getMessage();
 			}
 
 			
