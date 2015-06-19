@@ -109,7 +109,6 @@ Class RSS_Parse{
 				$dbh = $this->prepareDB();
 				
 				$stmt = $dbh -> prepare("SELECT * from rssfeed");
-				$stmt->bindParam(':Category', $category, PDO::PARAM_STR);
 
 				$ret=$stmt->execute();
 				if(!$ret){
