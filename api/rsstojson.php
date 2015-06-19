@@ -46,7 +46,7 @@ Class RSS_Parse{
 			try{
 				$dbh = $this->prepareDB();
 				
-				$stmt = $dbh -> prepare("SELECT similar.TargetArticleID, similar.Similarity ,rssfeed.Title rssfeed.Url from similar INNER JOIN rssfeed ON similar.TargetArticleID= rssfeed.ArticleID WHERE similar.ArticleID = :ArticleID");
+				$stmt = $dbh -> prepare("SELECT similar.TargetArticleID, similar.Similarity ,rssfeed.Title, rssfeed.Url,rssfeed.Time,rssfeed.Strings1,rssfeed.Strings2,rssfeed.Strings3,rssfeed.Category from similar INNER JOIN rssfeed ON similar.TargetArticleID= rssfeed.ArticleID WHERE similar.ArticleID = :ArticleID");
 				$stmt->bindParam(':ArticleID', $ArticleID, PDO::PARAM_INT);
 
 				$ret=$stmt->execute();
@@ -54,14 +54,20 @@ Class RSS_Parse{
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
-								
 				$return = array();
+				$a=0;
 				foreach ($result as $keys){
 					$TargetArticleID=$keys['TargetArticleID'];
-
-					$return[$TargetArticleID]['sim']=$keys['Similarity'];
-					$return[$TargetArticleID]['title']=$keys['Title'];
-					$return[$TargetArticleID]['url']=$keys['Url'];
+					$return[$a]['ArticleID']=$TargetArticleID;
+					$return[$a]['Similarity']=$keys['Similarity'];
+					$return[$a]['Title']=$keys['Title'];
+					$return[$a]['Url']=$keys['Url'];
+					$return[$a]['Time']=$keys['Time'];
+					$return[$a]['Strings1']=$keys['Strings1'];
+					$return[$a]['Strings2']=$keys['Strings2'];
+					$return[$a]['Strings3']=$keys['Strings3'];
+					$return[$a]['Category']=$keys['Category'];
+					$a++;
 				}
 				arsort($return,SORT_NUMERIC);
 				return $return;
