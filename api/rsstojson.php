@@ -42,12 +42,34 @@ Class RSS_Parse{
 		}
 		return $similar;
 	}
+	public function getSimilarArticle($ArticleID){
+			try{
+				$dbh = $this->prepareDB();
+				
+				$stmt = $dbh -> prepare("SELECT * from similar WHERE ArticleID = :ArticleID");
+				$stmt->bindParam(':ArticleID', $ArticleID, PDO::PARAM_INT);
+
+				$ret=$stmt->execute();
+				if(!$ret){
+					echo 'SQL Error';
+				}
+				$result = $stmt-> fetchAll();
+				return $result;
+			}catch  (PDOException $e) {
+			    print "Exception:SQL";
+				//print $e->getMessage();
+			}
+
+	}
 	public function addAnalyze($category){
 		$result = $this->textAnalyze($category);
 		$dbh = $this->prepareDB();
 
 		foreach ($result as $source_article_num => $compare_array){
 			foreach ($compare_array as $dest_article_num => $similarity){
+				if($source_article_num == $dest_article_num){
+					break;
+				}
 				$stmt = $dbh -> prepare("INSERT INTO similar (ArticleID, TargetArticleID, Similarity, LastUpdated) VALUES (:ArticleID, :TargetArticleID, $similarity, now())");
 				$stmt->bindValue(':ArticleID', $source_article_num, PDO::PARAM_INT);
 				$stmt->bindParam(':TargetArticleID', $dest_article_num, PDO::PARAM_INT);
