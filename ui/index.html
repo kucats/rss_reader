@@ -11,7 +11,7 @@
 <script src="./js/controllers/main.js"></script>
 
 </head>
-<body id="ng-app" ng-controller="mainController">
+<body id="ng-app" ng-controller="mainController" onload="getNewAPI();">
               <div class="navbar navbar-inverse">
                 <div class="navbar-header">
                   <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
@@ -40,6 +40,7 @@
                 </div><!-- /.nav-collapse -->
               </div><!-- /.navbar -->
               <div>
+              	          <button class="btn btn-primary" ng-click="getNewAPI()">更新</button>
 	              <table class="table table-striped table-hover ">
 	              <thead>
 		              <tr>
@@ -58,6 +59,4 @@
 	              </tbody>
 	              </table>
 	          </div>
-	          <button class="btn btn-primary" ng-click="getNewAPI()">API発行</button>
-
 </html>
