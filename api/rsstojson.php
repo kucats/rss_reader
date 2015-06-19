@@ -35,6 +35,9 @@ Class RSS_Parse{
 					echo 'SQL Error';
 				}
 				$result = $stmt-> fetchAll();
+				$datetime=$result['time'];
+				$result['Time']=strtotime($datetime);
+				
 				return $result;
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";

@@ -11,6 +11,7 @@ $rss->set('categories',$categories);
 $result=$rss->getCategoryArticles('top');
 
 $json=array();
+
 $json['data']=$result;
 
 echo json_encode($json);
