@@ -7,6 +7,7 @@ angular.module("myApp", [])
 		$scope.changeCategory = function(category){
 			console.log('change category to'+category);
 			$scope.category = category;
+			$scope.getNewAPI();
 		}
 
         $scope.getNewAPI = function() {
