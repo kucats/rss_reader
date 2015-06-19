@@ -60,7 +60,7 @@ Class RSS_Parse{
 					$Similarity=$keys['Similarity'];
 					$return[$TargetArticleID]=$Similarity;
 				}
-				asort($return);
+				asort($return,SORT_NUMERIC);
 				return $return;
 			}catch  (PDOException $e) {
 			    print "Exception:SQL";
