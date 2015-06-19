@@ -59,6 +59,7 @@ Class RSS_Parse{
 				foreach ($result as $keys){
 					$TargetArticleID=$keys['TargetArticleID'];
 					$return[$a]['ArticleID']=$TargetArticleID;
+					$return[$a]['SimilarFromID']=$ArticleID;
 					$return[$a]['Similarity']=$keys['Similarity'];
 					$return[$a]['Title']=$keys['Title'];
 					$return[$a]['Url']=$keys['Url'];
