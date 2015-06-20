@@ -134,7 +134,7 @@ Class RSS_Parse{
 			try{
 				$dbh = $this->prepareDB();
 				
-				$stmt = $dbh -> prepare("SELECT * from rssfeed WHERE Category = :Category");
+				$stmt = $dbh -> prepare("SELECT * from rssfeed WHERE Category = :Category ORDER BY Time DESC");
 				$stmt->bindParam(':Category', $category, PDO::PARAM_STR);
 
 				$ret=$stmt->execute();
